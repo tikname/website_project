@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-
+import tripleaxis.views
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
@@ -8,7 +8,8 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'nistproejct2.views.home', name='home'),
     # url(r'^nistproejct2/', include('nistproejct2.foo.urls')),
-
+    url(r'^home', tripleaxis.views.home, name='home'),
+    url(r'^contact', tripleaxis.views.contact, name='contact'),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
