@@ -1,5 +1,7 @@
 Ext.onReady(function() {
 
+Ext.namespace('resolution')
+
 var button = Ext.create('Ext.Button',{
 		text: 'Calcuate',
 		handler: calculateHandler,
@@ -10,7 +12,7 @@ function calculateHandler(button, event){
 	params = {'calculator': []};
 	params.rescal=[];
 	
-	var horcoll		= Ext.ComponentQuery.query('panel #resultsPanel')[0].getComponent('collimations').query('textfield[name="horizcoll"]')[0].value;
+	var horcoll     = Ext.ComponentQuery.query('panel #resultsPanel')[0].getComponent('collimations').query('textfield[name="horizcoll"]')[0].value;
 	var vertcoll	= Ext.ComponentQuery.query('panel #resultsPanel')[0].getComponent('collimations').query('textfield[name="vertcoll"]')[0].value;
 
 	// var h				=
@@ -48,9 +50,22 @@ function calculateHandler(button, event){
 		// ort2			:
 	});
 	
+	var data = Ext.JSON.encode();
+	//$.ajax({
+		//url: '/res_calculator',
+		//type: 'POST',
+		//data: {'data': data},
+		//success: function(respone) {
+			//resolution.successFunction(response),
+		//},
+	//});
+
 };	 //end calculateHandler function
 
-var data = Ext.JSON.encode();
+resolution.succesFunction = function(respone) {
+	//var  = Ext.decode(response),
+	
+	};
 
 //=====================================================================
 var Collimations = {
@@ -414,7 +429,7 @@ var Mosaic = {
 };
 
 //=====================================================================
-var resultsPanel = Ext.create('Ext.tab.Panel', {
+resolution.resultsPanel = Ext.create('Ext.tab.Panel', {
 	 itemID: 'resultsPanel',
 	 bodyPadding: 20,
     width: 800,
@@ -465,7 +480,7 @@ var Graph = {
 };
 
 //=====================================================================
-var bottomPanel = Ext.create('Ext.tab.Panel',{
+resolution.bottomPanel = Ext.create('Ext.tab.Panel',{
  	bodyPadding: 10,
    width: 800,
    height: 300,
@@ -481,8 +496,8 @@ var bottomPanel = Ext.create('Ext.tab.Panel',{
 });
 
 //=====================================================================
-var rescalContainer = Ext.create('Ext.container.Container',{
-
+resolution.rescalContainer = Ext.create('Ext.container.Container',{
+	itemID:"bigContainer",
 	region: 'center',
 	layout: {
 		type: 'vbox',
@@ -491,14 +506,14 @@ var rescalContainer = Ext.create('Ext.container.Container',{
 	//renderTo: Ext.getBody(),
 	items:[{
 			border: 0,
-			items: [resultsPanel],
+			items: [resolution.resultsPanel],
 		},{
 			border: 0,
-			items: [bottomPanel],
+			items: [resolution.bottomPanel],
 		}] //End items
 }); // End rescalConatiner
 
-rescalContainer.render('tab1');
+resolution.rescalContainer.render('tab1');
 
 //=====================================================================
 

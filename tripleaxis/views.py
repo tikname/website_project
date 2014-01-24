@@ -15,3 +15,10 @@ def contact(request):
     
 def rescal (request):
     return render(request,'rescalculator.html')
+
+
+@csrf_exempt
+def res_calculator(request):
+    data = simplejson.loads(request.POST['data'])
+    
+    return HttpResponse(simplejson.dumps(results))
