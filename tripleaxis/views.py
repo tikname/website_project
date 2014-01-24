@@ -12,3 +12,6 @@ def home(request):
 
 def contact(request):
     return render(request,'contact.html')
+    
+def rescal (request):
+    return render(request,'rescalculator.html')
