@@ -441,7 +441,6 @@ resolution.resultsPanel = Ext.create('Ext.tab.Panel', {
 
 //=====================================================================
 var dataGrid = Ext.create('Ext.grid.Panel',{
-	title: 'Resolution table',
 	// store: '',
 	columns: [
 			{ text: 'Horizontal collimator', width: 'fit', align: 'center'},
@@ -481,7 +480,6 @@ var Graph = {
 
 //=====================================================================
 resolution.bottomPanel = Ext.create('Ext.tab.Panel',{
- 	bodyPadding: 10,
    width: 800,
    height: 300,
 	activeTab: 1,
@@ -491,7 +489,7 @@ resolution.bottomPanel = Ext.create('Ext.tab.Panel',{
 			items:[Graph],
 		},{
 			title: 'Table',
-			items:[Table],
+			items:[dataGrid],
 		}],
 });
 
