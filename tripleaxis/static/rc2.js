@@ -2,6 +2,27 @@ Ext.onReady(function() {
 
 Ext.namespace('resolution')
 
+Ext.regModel('resultsModel', {
+        fields:[
+            {name:'horcoll', type:'string'},
+	    {name:'vertcoll', type:'string'},
+	     {name:'h', type:'string'},
+	      {name:'k', type:'string'},
+	       {name:'l', type:'string'},
+	        {name:'w', type:'string'},
+		 {name:'fixE', type:'string'},
+		  {name:'monsaic', type:'string'},
+		   {name:'analymos', type:'string'},
+		    {name:'horzs', type:'string'},
+		     {name:'verts', type:'string'},
+		      {name:'abc', type:'string'},
+		       {name:'abg', type:'string'},
+		        {name:'ort1', type:'string'},
+			{name:'ort2', type:'string'},
+            
+        ]
+    });	
+	
 var button = Ext.create('Ext.Button',{
 		text: 'Calcuate',
 		handler: calculateHandler,
@@ -14,29 +35,33 @@ resolution.successFunction = function(response) {
 	// dataGrid.store.clearData();
 	dataGrid.store.clearData();
 	
-	for(var i=0; i<results.length;i++){
 
-				var horcoll 	= results['horcoll'];
-				var vertcoll 	= results ['vertcoll'];
-				var h				= results ['h'];
-				var k				= results ['k'];
-				var l				= results ['l'];
-				var w				= results ['w'];
-				var fixE			= results ['fixenergy'];
-				var monsaic		= results ['monsaic'];
-				var analymos	= results ['analymos'];
-				var horzs		= results ['horzs'];
-				var verts		= results ['verts'];
-				var abc			= results ['abc'];
-				var abg			= results ['abg'];
-				var ort1			= results ['ort1'];
-				var ort2			= results ['ort2'];
 
-			var itemModel = Ext.create(item);
+	
+	//for(var i=0; i<results.length;i++){
+				var item={};
+				item.horcoll 	= results.rescal[0]['horcoll'];
+				item.vertcoll 	= results.rescal[0]['vertcoll'];
+				item.h				= results.rescal[0]['h'];
+				item.k				=  results.rescal[0]['k'];
+				item.l				= results.rescal[0]['l'];
+				item.w				= results.rescal[0]['w'];
+				item.fixE			= results.rescal[0]['fixenergy'];
+				item.monsaic		= results.rescal[0]['monsaic'];
+				item.analymos	= results.rescal[0]['analymos'];
+				item.horzs		= results.rescal[0]['horzs'];
+				item.verts		= results.rescal[0]['verts'];
+				item.abc			= results.rescal[0]['abc'];
+				item.abg			= results.rescal[0]['abg'];
+				item.ort1			= results.rescal[0]['ort1'];
+				item.ort2			= results.rescal[0]['ort2'];
+			
+		        
+			var itemModel = Ext.create('resultsModel',item);
 
-			dataGrid.store.data.add('results',itemModel);
+			dataGrid.store.data.add(itemModel);
 
-		} // end for 
+	//	} // end for 
 	
 		dataGrid.getView().refresh();
     } 
@@ -468,6 +493,17 @@ resolution.resultsPanel = Ext.create('Ext.tab.Panel', {
 
 //=====================================================================
 
+//Ext.create('Ext.data.Store',{
+	//storeId: 'rawData',
+	//data:{'items':[
+	//{ horcoll: 8, vertcoll: 7, h:1, k:1, l:1, w:1, fixE:1, monsaic:1, monsaic:1, analymos:1, horzs:2, verts: 3, abc:4, abg:1, ort1:2, ort2: 5},
+	//]}
+//});
+
+
+
+
+
 var dataGrid = Ext.create('Ext.grid.Panel',{
 	// store: rawData,
 	columns: [
@@ -488,6 +524,7 @@ var dataGrid = Ext.create('Ext.grid.Panel',{
 			{ header: 'Orientation 2', width: 'fit', align: 'center', dataIndex: 'ort2'},
 		],
 		height: 'fit',
+		
 		// collapsible: true,
 //		forceFit: 'true',
 });

@@ -23,6 +23,4 @@ def rescal (request):
 @csrf_exempt
 def res_calculator(request):
    data = simplejson.loads(request.POST['data'])
-   print "hi"
-    # results = data
    return HttpResponse(simplejson.dumps(data))
