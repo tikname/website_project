@@ -7,65 +7,92 @@ var button = Ext.create('Ext.Button',{
 		handler: calculateHandler,
 });
 
+resolution.successFunction = function(response) {
+
+    var results = Ext.decode(response);
+	 
+	// dataGrid.store.clearData();
+	dataGrid.store.clearData();
+	
+	for(var i=0; i<results.length;i++){
+
+				var horcoll 	= results['horcoll'];
+				var vertcoll 	= results ['vertcoll'];
+				var h				= results ['h'];
+				var k				= results ['k'];
+				var l				= results ['l'];
+				var w				= results ['w'];
+				var fixE			= results ['fixenergy'];
+				var monsaic		= results ['monsaic'];
+				var analymos	= results ['analymos'];
+				var horzs		= results ['horzs'];
+				var verts		= results ['verts'];
+				var abc			= results ['abc'];
+				var abg			= results ['abg'];
+				var ort1			= results ['ort1'];
+				var ort2			= results ['ort2'];
+
+			var itemModel = Ext.create(item);
+
+			dataGrid.store.data.add('results',itemModel);
+
+		} // end for 
+	
+		dataGrid.getView().refresh();
+    } 
+
+
 function calculateHandler(button, event){
 	
 	params = {'calculator': []};
 	params.rescal=[];
 	
-	var horcoll     = Ext.ComponentQuery.query('panel #resultsPanel')[0].getComponent('collimations').query('textfield[name="horizcoll"]')[0].value;
-	var vertcoll	= Ext.ComponentQuery.query('panel #resultsPanel')[0].getComponent('collimations').query('textfield[name="vertcoll"]')[0].value;
+	var horiz = Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=horizcoll]')[0].getValue();
+	var vert 	= Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=vertcoll]')[0].getValue();
+	var h 		= Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=h]')[0].getValue();
+	var k		= Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=k]')[0].getValue();
+	var l		= Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=l]')[0].getValue();
+	var w		= Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=w]')[0].getValue();
+	var fixE 	= Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=fixenergy]')[0].getValue();
+	var mons	= Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=monmosaic]')[0].getValue();
+	var anas	= Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=analmosaic]')[0].getValue();
+	var horzs	= Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=horzmosaic]')[0].getValue();
+	var verts	= Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=vertmosaic]')[0].getValue();
+	var albega = Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=albega]')[0].getValue();
+	var abc   = Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=abc]')[0].getValue();
+	var orien1 = Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=Orien1]')[0].getValue();
+	var orien2 = Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=Orien2]')[0].getValue();
 
-	// var h				=
-	// var k				=	
-	// var l				=
-	// var w				=
-	// var fixenergy	=
-	// var fxunit		= // combine with fixenergy
-	// var monsaic		=
-	// var monunit		= // combine with monsaic
-	// var analymos	=
-	// var anaunit		= // combine with analymos
-	// var shorzmos	=
-	// var svertmos	=
-	// var abc			=
-	// var abg			=
-	// var ort1			=
-	// var ort2			=
 
 	params.rescal.push({
-		horcoll 		: horcoll,
-		vertcoll 	: vertcoll,
-		// h				: 
-		// k				:	
-		// l				:
-		// w				:
-		// fixenergy	:
-		// monsaic		:
-		// analymos		:
-		// shorzmos		:
-		// svertmos		:
-		// abc			:
-		// abg			:
-		// ort1			:
-		// ort2			:
+		horcoll 		: horiz,
+		vertcoll 	: vert,
+		h				: h,
+		k				: k,
+		l				: l,
+		w				: w,
+		fixenergy	: fixE,
+		monsaic		: mons,
+		analymos		: anas,
+		horzs			: horzs,
+		verts			: verts,
+		abc			: abc,
+		abg			: albega,
+		ort1			: orien1,
+		ort2			: orien2,
 	});
 	
-	var data = Ext.JSON.encode();
-	//$.ajax({
-		//url: '/res_calculator',
-		//type: 'POST',
-		//data: {'data': data},
-		//success: function(respone) {
-			//resolution.successFunction(response),
-		//},
-	//});
+	var data = Ext.JSON.encode(params);
+	$.ajax({
+		url: '/res_calculator',
+		type: 'POST',
+		data: {'data': data},
+		success: function(response) {
+			resolution.successFunction(response);
+		},
+	});
 
 };	 //end calculateHandler function
-
-resolution.succesFunction = function(respone) {
-	//var  = Ext.decode(response),
-	
-	};
 
 //=====================================================================
 var Collimations = {
@@ -440,26 +467,28 @@ resolution.resultsPanel = Ext.create('Ext.tab.Panel', {
 });
 
 //=====================================================================
+
 var dataGrid = Ext.create('Ext.grid.Panel',{
-	// store: '',
+	// store: rawData,
 	columns: [
-			{ text: 'Horizontal collimator', width: 'fit', align: 'center'},
-			{ text: 'Vertical collimator', width: 'fit', align: 'center'},
-			{ text: 'h', width: 'fit', align: 'center'},
-			{ text: 'k', width: 'fit', align: 'center'},
-			{ text: 'l', width: 'fit', align: 'center'},
-			{ text: '&#969', width: 'fit', align: 'center'}, 
-			{ text: 'Fixed Energy', width: 'fit', align: 'center'}, 
-			{ text: 'Mon. Mosaic', width: 'fit', align: 'center'}, 
-			{ text: 'Analyzer Mosaic', width: 'fit', align: 'center'}, 
-			{ text: 'E.g. horz Mosaic', width: 'fit', align: 'center'}, 
-			{ text: 'E.g. vert Mosaic', width: 'fit', align: 'center'}, 
-			{ text: 'a b c', width: 'fit', align: 'center'}, 
-			{ text: '&#945 &#946 &#947', width: 'fit', align: 'center'}, 
-			{ text: 'Orientation 1', width: 'fit', align: 'center'},
-			{ text: 'Orientation 2', width: 'fit', align: 'center'},
+			{ header: 'Horizontal collimator', width: 'fit', align: 'center', dataIndex: 'horcoll'},
+			{ header: 'Vertical collimator', width: 'fit', align: 'center', dataIndex: 'vertcoll'},
+			{ header: 'h', width: 'fit', align: 'center', dataIndex: 'h'},
+			{ header: 'k', width: 'fit', align: 'center', dataIndex: 'k'},
+			{ header: 'l', width: 'fit', align: 'center', dataIndex: 'l'},
+			{ header: '&#969', width: 'fit', align: 'center', dataIndex: 'w'}, 
+			{ header: 'Fixed Energy', width: 'fit', align: 'center', dataIndex: 'fixE'}, 
+			{ header: 'Mon. Mosaic', width: 'fit', align: 'center', dataIndex: 'monsaic'}, 
+			{ header: 'Analyzer Mosaic', width: 'fit', align: 'center', dataIndex: 'analymos'}, 
+			{ header: 'E.g. horz Mosaic', width: 'fit', align: 'center', dataIndex: 'horzs'}, 
+			{ header: 'E.g. vert Mosaic', width: 'fit', align: 'center', dataIndex: 'verts'}, 
+			{ header: 'a b c', width: 'fit', align: 'center', dataIndex: 'abc'}, 
+			{ header: '&#945 &#946 &#947', width: 'fit', align: 'center', dataIndex: 'abg'}, 
+			{ header: 'Orientation 1', width: 'fit', align: 'center', dataIndex: 'ort1'},
+			{ header: 'Orientation 2', width: 'fit', align: 'center', dataIndex: 'ort2'},
 		],
 		height: 'fit',
+		// collapsible: true,
 //		forceFit: 'true',
 });
 
@@ -480,6 +509,7 @@ var Graph = {
 
 //=====================================================================
 resolution.bottomPanel = Ext.create('Ext.tab.Panel',{
+	itemID: 'bottomPanel',
    width: 800,
    height: 300,
 	activeTab: 1,
@@ -514,5 +544,7 @@ resolution.rescalContainer = Ext.create('Ext.container.Container',{
 resolution.rescalContainer.render('tab1');
 
 //=====================================================================
+
+
 
 }); //Ext.onReady
