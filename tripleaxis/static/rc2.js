@@ -87,6 +87,7 @@ function calculateHandler(button, event){
 	var abc   = Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=abc]')[0].getValue();
 	var orien1 = Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=Orien1]')[0].getValue();
 	var orien2 = Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('textfield[name=Orien2]')[0].getValue();
+	var monsUnit	= Ext.ComponentQuery.query('panel[itemID=resultsPanel]')[0].query('displayfield[name=monunit]')[0].getValue();
 
 
 	params.rescal.push({
@@ -97,7 +98,7 @@ function calculateHandler(button, event){
 		l				: l,
 		w				: w,
 		fixenergy	: fixE,
-		monsaic		: mons,
+		monsaic		: mons+monsUnit,
 		analymos		: anas,
 		horzs			: horzs,
 		verts			: verts,
@@ -176,6 +177,7 @@ var Collimations = {
 					  }], 
 }; 
 
+
 //=====================================================================
 var Orientation = {
 	title: 'Orientation',
@@ -195,6 +197,7 @@ var Orientation = {
 		  value: '0 1 0'
 		}] // Orientataion textfield
 };
+
 
 //=====================================================================
 var Lattice = {
@@ -253,6 +256,7 @@ var Lattice = {
 	  }] // End Lattice tab
 };
 
+
 //=====================================================================
 var Energy = {
 	title: 'Energy',
@@ -295,6 +299,7 @@ var Energy = {
 			  }]								  
 		  }] //End items; Energy textfield
 };
+
 
 //=====================================================================
 var Hklw ={
@@ -370,6 +375,7 @@ var Hklw ={
   }] // h-k-l-w textfield	
 };
 
+
 //=====================================================================
 var Mosaic = {
 	itemID: 'mosaic',
@@ -400,9 +406,29 @@ var Mosaic = {
 				labelSeparator: '',
 				name: 'monchrom_example',
 			},{
+                                //width:          80,
+                                //xtype:          'combo',
+                                //queryMode:      'local',
+                                //value:          'pg(002)',
+                                //triggerAction:  'all',
+                                //forceSelection: true,
+                                //editable:       false,
+                                ////fieldLabel:     'name',
+                                //name:           'title',
+                                //displayField:   'name',
+                                //valueField:     'value',
+                                //store:          Ext.create('Ext.data.Store', {
+                                    //fields : ['name', 'value'],
+                                    //data   : [
+                                        //{name : 'pg(002)',   value: 'pg002'},
+                                        //{name : 'pg(001)',  value: 'pg001'},
+                                        //{name : 'ge(111)', value: 'ge111'}
+                                    //]
+                                //})
+				
 				xtype: 'displayfield',
 				name: 'monunit',
-				fieldLabel:'<select name="monc" style= "width: auto; height: auto; font-size: 12px"><option value="pg002">pg(002)</option><option value="pg001">pg(001)</option><option value="ge111">ge(111)</option><option value="ge220">ge(220)</option><option value="ge311">ge(311)</option><option value="be002">be(002)</option><option value="pg110">pg(110)</option></select>',
+				value:'<select name="monc" style= "width: auto; height: auto; font-size: 12px"><option value="pg002">pg(002)</option><option value="pg001">pg(001)</option><option value="ge111">ge(111)</option><option value="ge220">ge(220)</option><option value="ge311">ge(311)</option><option value="be002">be(002)</option><option value="pg110">pg(110)</option></select>',
 				labelSeparator: '',
 			}]								  
 	  },{
@@ -480,6 +506,7 @@ var Mosaic = {
   }] // Mosaic textfield
 };
 
+
 //=====================================================================
 resolution.resultsPanel = Ext.create('Ext.tab.Panel', {
 	 itemID: 'resultsPanel',
@@ -491,18 +518,8 @@ resolution.resultsPanel = Ext.create('Ext.tab.Panel', {
     items: [Collimations,Hklw,Energy,Mosaic,Lattice,Orientation]                             
 });
 
+
 //=====================================================================
-
-//Ext.create('Ext.data.Store',{
-	//storeId: 'rawData',
-	//data:{'items':[
-	//{ horcoll: 8, vertcoll: 7, h:1, k:1, l:1, w:1, fixE:1, monsaic:1, monsaic:1, analymos:1, horzs:2, verts: 3, abc:4, abg:1, ort1:2, ort2: 5},
-	//]}
-//});
-
-
-
-
 
 var dataGrid = Ext.create('Ext.grid.Panel',{
 	// store: rawData,
@@ -523,10 +540,10 @@ var dataGrid = Ext.create('Ext.grid.Panel',{
 			{ header: 'Orientation 1', width: 'fit', align: 'center', dataIndex: 'ort1'},
 			{ header: 'Orientation 2', width: 'fit', align: 'center', dataIndex: 'ort2'},
 		],
-		height: 'fit',
-		
-		// collapsible: true,
-//		forceFit: 'true',
+		height: 260,
+		scroll: true,
+		//collapsible: true,
+		//forceFit: 'true',
 });
 
 var Table = {
@@ -544,6 +561,7 @@ var Graph = {
 	fieldLabel: 'Graph',
 };
 
+
 //=====================================================================
 resolution.bottomPanel = Ext.create('Ext.tab.Panel',{
 	itemID: 'bottomPanel',
@@ -559,6 +577,7 @@ resolution.bottomPanel = Ext.create('Ext.tab.Panel',{
 			items:[dataGrid],
 		}],
 });
+
 
 //=====================================================================
 resolution.rescalContainer = Ext.create('Ext.container.Container',{
@@ -578,10 +597,9 @@ resolution.rescalContainer = Ext.create('Ext.container.Container',{
 		}] //End items
 }); // End rescalConatiner
 
+
 resolution.rescalContainer.render('tab1');
 
 //=====================================================================
-
-
 
 }); //Ext.onReady
